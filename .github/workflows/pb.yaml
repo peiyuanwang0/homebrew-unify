@@ -23,8 +23,8 @@
         - name: get time
           id: get-time
           run: |
-            apt update -y
-            apt install upx-ucl -y
+            sudo apt update -y
+            sudo apt install upx-ucl -y
             echo "time=$(date +'%Y%m%d%H%M')" >> "$GITHUB_OUTPUT"
             echo "timeYY=$(date +'%y')" >> "$GITHUB_OUTPUT"
             echo "timeMM=$(date +'%m')" >> "$GITHUB_OUTPUT"
