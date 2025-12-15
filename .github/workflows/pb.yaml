@@ -1,0 +1,63 @@
+---
+  name: "publish new version"
+  run-name: "Publish version triggered by ${{ github.actor }} at ${{ github.head_ref }}"
+  on:
+    push:
+      branches:
+        - "*"
+  jobs:
+
+    publish-new-version-nu:
+      strategy:
+        matrix:
+          os_arch: [ "linux_amd64", "linux_arm64", "darwin_amd64", "darwin_arm64" ]
+      name: publish new version
+      outputs:
+        time: ${{ steps.get-time.outputs.time }}
+
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        - name: get time
+          id: get-time
+          run: |
+            apt update -y
+            apt install upx-ucl -y
+            echo "time=$(date +'%Y%m%d%H%M')" >> "$GITHUB_OUTPUT"
+            echo "timeYY=$(date +'%y')" >> "$GITHUB_OUTPUT"
+            echo "timeMM=$(date +'%m')" >> "$GITHUB_OUTPUT"
+            echo "timeDD=$(date +'%d')" >> "$GITHUB_OUTPUT"
+        - uses: hustcer/setup-nu@v3
+          with:
+            version: "*"
+        - name: Setup Go 1.25
+          uses: actions/setup-go@v5
+          with:
+            go-version: "1.25"
+        - name: dl packages
+          run: |
+            use std log
+            nu dl.nu dl
+        - name: go build and release
+          run: |
+            OS_ARCH=${{ matrix.os_arch }}
+            echo "OS_ARCH=$OS_ARCH"
+            GOOS=${OS_ARCH%%_*}
+            GOARCH=${OS_ARCH##*_}
+            echo "GOOS=$GOOS"
+            echo "GOARCH=$GOARCH"
+            GOOS=${GOOS} GOARCH=${GOARCH} go build -o unify-${{matrix.os_arch}} ./cmd
+            upx --best --lzma  unify-${GOOS}-${GOARCH} || true
+            tar -czvf unify-${{matrix.os_arch}}.tgz unify-${{matrix.os_arch}}
+
+
+        - uses: "marvinpinto/action-automatic-releases@latest"
+          name: "latest release"
+          with:
+            repo_token: "${{ secrets.HUB_TOKEN }}"
+            prerelease: false # auto release to latest
+            automatic_release_tag: "latest"
+            title: "Latest Release-${{ steps.get-time.outputs.time }}"
+            files: |
+              unify-${{matrix.os_arch}}.tgz
