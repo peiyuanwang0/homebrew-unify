@@ -5,6 +5,7 @@
     push:
       branches:
         - "*"
+    workflow_dispatch:
   jobs:
 
     publish-new-version-nu:
