@@ -21,7 +21,7 @@ class Unify < Formula
     # https://docs.brew.sh/rubydoc/Formula.html#std_configure_args-instance_method
     # system "./configure", "--disable-silent-rules", *std_configure_args
     # system "cmake", "-S", ".", "-B", "build", *std_cmake_args
-    bin.install "unify-linux-arm64" => "unify"
+    bin.install "unify-darwin-arm64" => "unify"
   end
 
   test do
