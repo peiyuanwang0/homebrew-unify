@@ -69,10 +69,6 @@
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
-        - name: get time
-          id: get-time
-          run: |
-            echo ${{ needs.pnvn.outputs.time }} >> "$GITHUB_OUTPUT"
         - uses: hustcer/setup-nu@v3
           with:
             version: "*"
@@ -86,12 +82,12 @@
                 continue
               }
 
-              let sha256SumKey = (gh api   -H "Accept: application/vnd.github+json"   -H "X-GitHub-Api-Version: 2022-11-28"   $"/repos/peiyuanwang0/homebrew-unify/releases/tags/release-${{ steps.get-time.outputs.time }}-($osarch)" | from json | get assets | get digest | get 0 | split row ":" | get 1)
+              let sha256SumKey = (gh api   -H "Accept: application/vnd.github+json"   -H "X-GitHub-Api-Version: 2022-11-28"   $"/repos/peiyuanwang0/homebrew-unify/releases/tags/release-${{ needs.pnvn.outputs.time }}-($osarch)" | from json | get assets | get digest | get 0 | split row ":" | get 1)
               log info "sha256SumKey: ($sha256SumKey)"
               let templatePath = "templates/unify.rb.template"
               let outputPath = "Formula/unify.rb"
               open $templatePath | str replace -a "@@($osarch)-sha256@@" $sha256SumKey | save -f $outputPath
-              open $templatePath | str replace -a "@@($osarch)@@" ${{ steps.get-time.outputs.time }} | save -f $outputPath
+              open $templatePath | str replace -a "@@($osarch)@@" ${{ needs.pnvn.outputs.time }} | save -f $outputPath
             }
 
         - name: Commit and push changes
@@ -102,6 +98,6 @@
             git config --local user.email "peiyuan.wang@lotusflare.com"
             git config pull.rebase false
             git add Formula/unify.rb
-            git commit -m "Update unify formula at ${{ steps.get-time.outputs.time }}" || echo "No changes to commit"
+            git commit -m "Update unify formula at ${{ needs.pnvn.outputs.time }}" || echo "No changes to commit"
             git push origin HEAD:main
             
