@@ -46,8 +46,8 @@
           run: |
             OS_ARCH=${{ matrix.os_arch }}
             echo "OS_ARCH=$OS_ARCH"
-            GOOS=${OS_ARCH%%_*}
-            GOARCH=${OS_ARCH##*_}
+            GOOS=${OS_ARCH%%-*}
+            GOARCH=${OS_ARCH##*-}
             echo "GOOS=$GOOS"
             echo "GOARCH=$GOARCH"
             GOOS=${GOOS} GOARCH=${GOARCH} go build -o unify-${{matrix.os_arch}} ./cmd
