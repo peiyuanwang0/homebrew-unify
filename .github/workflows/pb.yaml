@@ -90,8 +90,8 @@
               log info "sha256SumKey: ($sha256SumKey)"
               let templatePath = "templates/unify.rb.template"
               let outputPath = "Formula/unify.rb"
-              open $templatePath | str replace -a "${{($osarch)-sha256}}" $sha256SumKey | save -f $outputPath
-              open $templatePath | str replace -a "${{($osarch)}}" ${{ steps.get-time.outputs.time }} | save -f $outputPath
+              open $templatePath | str replace -a "@@($osarch)-sha256@@" $sha256SumKey | save -f $outputPath
+              open $templatePath | str replace -a "@@($osarch)@@" ${{ steps.get-time.outputs.time }} | save -f $outputPath
             }
 
         - name: Commit and push changes
