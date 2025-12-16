@@ -2,9 +2,6 @@
   name: "publish new version"
   run-name: "Publish version triggered by ${{ github.actor }} at ${{ github.head_ref }}"
   on:
-    push:
-      branches:
-        - "*"
     workflow_dispatch:
   permissions:
     contents: write

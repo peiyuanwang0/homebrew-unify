@@ -5,7 +5,7 @@ class Unify < Formula
   desc "u guess😄"
   homepage "https://github.com/peiyuanwang0/homebrew-unify"
   url "https://github.com/peiyuanwang0/homebrew-unify/releases/download/release-darwin-arm64/unify-darwin-arm64.tgz"
-  sha256 "9fdc241cd341d48324553499935a13873e63afd772b6d24644a8315fbd965635"
+  sha256 "66a20cc2262af1377cde09d8a5ea1d9dc9913b4deb9c2a4e889c429b0e23014a"
   license ""
 
   # depends_on "cmake" => :build
