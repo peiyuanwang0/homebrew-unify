@@ -2,7 +2,9 @@ use std log
 
 const nu_versions = [
   "0.105.1",
+  "0.108.1",
   "0.109.1"
+
 ]
 
 const dlPackageName = "/tmp/nu502F5896E33.tar.gz"

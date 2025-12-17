@@ -45,7 +45,7 @@ func run(path string, args []string) error {
 func main() {
 	var version string
 
-	flag.StringVar(&version, "version", "105", "helper version")
+	flag.StringVar(&version, "spec-version", "105", "helper version")
 	flag.Parse()
 	if version < "105" {
 		fmt.Fprintf(os.Stderr, "version %s is not supported\n", version)
