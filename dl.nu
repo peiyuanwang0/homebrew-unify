@@ -2,7 +2,6 @@ use std log
 
 const nu_versions = [
   "0.105.1",
-  "0.108.0",
   "0.109.1"
 
 ]
