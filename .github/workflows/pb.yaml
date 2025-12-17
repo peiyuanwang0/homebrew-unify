@@ -73,6 +73,8 @@
           with:
             version: "*"
         - name: unify rb
+          env:
+            GITHUB_TOKEN: ${{ secrets.HUB_TOKEN_PB }}
           shell: nu {0}
           run: |
             use std log
@@ -93,7 +95,7 @@
 
         - name: Commit and push changes
           env: 
-            GITHUB_TOKEN: ${{ secrets.HUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.HUB_TOKEN_PB }}
           run: |
             git config --local user.name "peiyuan.wang"
             git config --local user.email "peiyuan.wang@lotusflare.com"
