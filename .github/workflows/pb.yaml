@@ -49,7 +49,7 @@
             echo "GOARCH=$GOARCH"
             GOOS=${GOOS} GOARCH=${GOARCH} go build -o unify-${{matrix.os_arch}} ./cmd
             upx --best --lzma  unify-${{matrix.os_arch}} || true
-            tar -czvf unify-${{matrix.os_arch}}.tgz unify-${{matrix.os_arch}}
+            tar -czvf unify-${{ steps.get-time.outputs.time }}-${{matrix.os_arch}}.tgz unify-${{matrix.os_arch}}
 
         - uses: "marvinpinto/action-automatic-releases@latest"
           name: "latest release"
